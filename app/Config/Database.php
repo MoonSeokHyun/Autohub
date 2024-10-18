@@ -26,9 +26,9 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => '127.0.0.1', // 로컬호스트
-        'username'     => 'root', // 사용자 이름
-        'password'     => '1234', // 비밀번호
+        'hostname'     => '203.245.28.201', // 로컬호스트
+        'username'     => 'mls0000', // 사용자 이름
+        'password'     => 'Alcls1475', // 비밀번호
         'database'     => 'ParkingNet', // 데이터베이스 이름
         'DBDriver'     => 'MySQLi', // 또는 'PDO' 사용
         'DBPrefix'     => '',
