@@ -1,0 +1,21 @@
+public $default = [
+    'DSN'      => '',
+    'hostname' => 'thecareer23.mycafe24.com',
+    'username' => 'thecareer23',
+    'password' => 'Anstmdwn1!', // 비밀번호를 입력하세요
+    'database' => 'thecareer23', // 사용할 데이터베이스 이름으로 변경하세요
+    'DBDriver' => 'MySQLi', // 또는 'PDO' 사용
+    'DBPrefix' => '',
+    'pConnect' => false,
+    'DBDebug'  => (ENVIRONMENT !== 'production'),
+    'cacheOn'  => false,
+    'cachedir' => '',
+    'charset'  => 'utf8',
+    'DBCollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt'  => false,
+    'compress' => false,
+    'strictOn' => false,
+    'failover' => [],
+    'saveQueries' => true,
+];
