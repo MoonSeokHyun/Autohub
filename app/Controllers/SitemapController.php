@@ -34,44 +34,74 @@ class SitemapController extends Controller
             base_url('/parking')                // 주차장 페이지
         ];
 
-        // 사이트맵 초기화
+        // 사이트맵 파일 인덱스 초기화
+        $fileIndex = 1;
+        $urlCount = 0;
         $sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
         $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-        $urlCount = 0;
 
         // 기본 URL을 사이트맵에 추가
+        $this->addUrlsToSitemap($urls, $sitemap, $fileIndex, $urlCount);
+
+        // 주차장 URL 추가
+        $this->addUrlsToSitemap($this->generateUrlsForParkings($parkings), $sitemap, $fileIndex, $urlCount);
+
+        // 주유소 URL 추가
+        $this->addUrlsToSitemap($this->generateUrlsForGasStations($gasStations), $sitemap, $fileIndex, $urlCount);
+
+        // 자동차 정비소 URL 추가
+        $this->addUrlsToSitemap($this->generateUrlsForRepairShops($automobileRepairShops), $sitemap, $fileIndex, $urlCount);
+
+        // 마지막 파일 저장
+        if ($urlCount > 0) {
+            file_put_contents(FCPATH . "public/sitemap_{$fileIndex}.xml", $sitemap . '</urlset>');
+        }
+
+        // 첫 번째 사이트맵 파일 제공
+        return $this->response->setHeader('Content-Type', 'application/xml')
+            ->setBody(file_get_contents(FCPATH . 'public/sitemap_1.xml'));
+    }
+
+    private function addUrlsToSitemap(array $urls, &$sitemap, &$fileIndex, &$urlCount)
+    {
         foreach ($urls as $url) {
             $sitemap .= $this->generateUrl($url);
             $urlCount++;
+            if ($urlCount >= 10000) { // 10,000개마다 새로운 파일로 저장
+                file_put_contents(FCPATH . "public/sitemap_{$fileIndex}.xml", $sitemap . '</urlset>');
+                $fileIndex++;
+                $sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
+                $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+                $urlCount = 0;
+            }
         }
+    }
 
-        // 주차장 URL 추가
+    private function generateUrlsForParkings(array $parkings)
+    {
+        $urls = [];
         foreach ($parkings as $parking) {
-            $sitemap .= $this->generateUrl(base_url('parking/detail/' . $parking['id']));
-            $urlCount++;
+            $urls[] = base_url('parking/detail/' . $parking['id']);
         }
+        return $urls;
+    }
 
-        // 주유소 URL 추가
+    private function generateUrlsForGasStations(array $gasStations)
+    {
+        $urls = [];
         foreach ($gasStations as $gasStation) {
-            $sitemap .= $this->generateUrl(base_url('gas_stations/' . $gasStation['id']));
-            $urlCount++;
+            $urls[] = base_url('gas_stations/' . $gasStation['id']);
         }
+        return $urls;
+    }
 
-        // 자동차 정비소 URL 추가
+    private function generateUrlsForRepairShops(array $automobileRepairShops)
+    {
+        $urls = [];
         foreach ($automobileRepairShops as $shop) {
-            $sitemap .= $this->generateUrl(base_url('automobile_repair_shop/' . $shop['id']));
-            $urlCount++;
+            $urls[] = base_url('automobile_repair_shop/' . $shop['id']);
         }
-
-        // 마지막 URL 닫기
-        $sitemap .= '</urlset>';
-
-        // 사이트맵 파일 저장 (public 디렉토리에 저장)
-        file_put_contents(FCPATH . 'public/sitemap.xml', $sitemap);
-
-        // 웹에서 바로 제공
-        return $this->response->setHeader('Content-Type', 'application/xml')
-            ->setBody(file_get_contents(FCPATH . 'public/sitemap.xml'));
+        return $urls;
     }
 
     // 사이트맵 URL 생성 함수
