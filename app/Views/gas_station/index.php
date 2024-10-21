@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>AutoHub</title>
+    <title>Car Hub</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <body>
 <div class="container">
 <header onclick="goToHome()">
-    <h1>AutoHub</h1>
+    <h1>Car Hub</h1>
     <nav>
         <ul>
                 <li><a href="/gas_stations">주유소</a></li>

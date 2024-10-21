@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-    <title>AutoHub</title>
+    <title>Car Hub</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -136,8 +136,8 @@
     </style>
 </head>
 <body>
-    <header onclick="window.location.href='<?= base_url('parking'); ?>'">
-        <h1>AUTO HUB</h1>
+    <header>
+        <h1>Car Hub</h1>
         <nav>
             <ul>
             <li><a href="/gas_stations">주유소</a></li>
