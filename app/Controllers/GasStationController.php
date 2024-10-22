@@ -59,14 +59,10 @@ class GasStationController extends BaseController
         // 주유소 코드 가져오기
         $stationCode = $station['station_code'];
 
-        // 유가 정보 가져오기
-        $fuelPrices = $this->gasStationModel->getFuelPrices($stationCode);
-
         // 지도에 마커 표시 및 유가 정보 출력
         return view('gas_station/detail', [
             'station' => $station,
             'nearbyGasStations' => $nearbyGasStations,
-            'fuelPrices' => $fuelPrices
         ]);
     }
 }

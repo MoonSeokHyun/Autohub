@@ -5,7 +5,6 @@ $dieselPrice = rand(1300, 1399); // Diesel price around 1300
 $premiumGasolinePrice = rand(1800, 1900); // Premium gasoline price between 1800~1900
 $kerosenePrice = rand(900, 1100); // Kerosene price between 900~1100
 ?>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
