@@ -54,12 +54,12 @@ class SitemapController extends Controller
 
         // 마지막 파일 저장
         if ($urlCount > 0) {
-            file_put_contents(FCPATH . "public/sitemap_{$fileIndex}.xml", $sitemap . '</urlset>');
+            file_put_contents(FCPATH . "sitemap_{$fileIndex}.xml", $sitemap . '</urlset>');
         }
 
         // 첫 번째 사이트맵 파일 제공
         return $this->response->setHeader('Content-Type', 'application/xml')
-            ->setBody(file_get_contents(FCPATH . 'public/sitemap_1.xml'));
+            ->setBody(file_get_contents(FCPATH . 'sitemap_1.xml'));
     }
 
     private function addUrlsToSitemap(array $urls, &$sitemap, &$fileIndex, &$urlCount)
@@ -68,7 +68,7 @@ class SitemapController extends Controller
             $sitemap .= $this->generateUrl($url);
             $urlCount++;
             if ($urlCount >= 10000) { // 10,000개마다 새로운 파일로 저장
-                file_put_contents(FCPATH . "public/sitemap_{$fileIndex}.xml", $sitemap . '</urlset>');
+                file_put_contents(FCPATH . "sitemap_{$fileIndex}.xml", $sitemap . '</urlset>');
                 $fileIndex++;
                 $sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
                 $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
