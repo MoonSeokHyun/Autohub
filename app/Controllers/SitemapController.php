@@ -35,6 +35,9 @@ class SitemapController extends ResourceController
             return preg_match('/^sitemap_\d+\.xml$/', $file); // "sitemap_숫자.xml" 패턴에 맞는 파일만 포함
         });
         
+        // 공백 제거 (유니코드 BOM 제거)
+        ob_clean();
+        
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
@@ -56,6 +59,9 @@ class SitemapController extends ResourceController
         $filePath = WRITEPATH . 'sitemaps/' . $filename;
 
         if (file_exists($filePath)) {
+            // 공백 제거 (유니코드 BOM 제거)
+            ob_clean();
+            
             $xmlContent = file_get_contents($filePath);
             return $this->response->setContentType('application/xml')->setBody($xmlContent);
         } else {
