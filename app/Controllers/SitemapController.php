@@ -36,14 +36,16 @@ class SitemapController extends ResourceController
         });
         
         // 공백 제거 (유니코드 BOM 제거)
-        ob_clean();
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
         
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
         foreach ($filteredFiles as $file) {
             $xml .= '<sitemap>';
-            $xml .= '<loc>' . base_url("sitemaps/{$file}") . '</loc>';
+            $xml .= '<loc>' . base_url("sitemap/view/{$file}") . '</loc>'; // 실제 접근 가능한 URL로 수정
             $xml .= '<lastmod>' . date('Y-m-d') . '</lastmod>';
             $xml .= '</sitemap>';
         }
@@ -60,7 +62,9 @@ class SitemapController extends ResourceController
 
         if (file_exists($filePath)) {
             // 공백 제거 (유니코드 BOM 제거)
-            ob_clean();
+            if (ob_get_level()) {
+                ob_end_clean();
+            }
             
             $xmlContent = file_get_contents($filePath);
             return $this->response->setContentType('application/xml')->setBody($xmlContent);
