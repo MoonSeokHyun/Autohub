@@ -31,10 +31,14 @@ class SitemapController extends ResourceController
     public function sitemapIndex()
     {
         $files = $this->sitemapModel->getSitemapFiles();
+        $filteredFiles = array_filter($files, function($file) {
+            return preg_match('/^sitemap_\d+\.xml$/', $file); // "sitemap_숫자.xml" 패턴에 맞는 파일만 포함
+        });
+        
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-        foreach ($files as $file) {
+        foreach ($filteredFiles as $file) {
             $xml .= '<sitemap>';
             $xml .= '<loc>' . base_url("sitemaps/{$file}") . '</loc>';
             $xml .= '<lastmod>' . date('Y-m-d') . '</lastmod>';
@@ -61,3 +65,4 @@ class SitemapController extends ResourceController
 }
 
 ?>
+
