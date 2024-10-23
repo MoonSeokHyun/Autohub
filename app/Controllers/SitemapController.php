@@ -67,6 +67,12 @@ class SitemapController extends ResourceController
             }
             
             $xmlContent = file_get_contents($filePath);
+            
+            // 네임스페이스 추가 확인 및 수정
+            if (strpos($xmlContent, 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"') === false) {
+                $xmlContent = str_replace('<urlset>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', $xmlContent);
+            }
+            
             return $this->response->setContentType('application/xml')->setBody($xmlContent);
         } else {
             return $this->failNotFound('해당 사이트맵 파일을 찾을 수 없습니다.');
@@ -75,4 +81,5 @@ class SitemapController extends ResourceController
 }
 
 ?>
+
 
