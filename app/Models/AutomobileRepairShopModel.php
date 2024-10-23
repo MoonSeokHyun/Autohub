@@ -33,4 +33,16 @@ class AutomobileRepairShopModel extends Model
         // 결과 반환
         return $query->getResultArray();
     }
+
+    // chunk 메소드 재정의
+    public function chunk(int $size, \Closure $callback)
+    {
+        return parent::chunk($size, $callback);
+    }
+
+    // 사이트맵용 데이터 가져오기
+    public function getSitemapData()
+    {
+        return $this->findAll(); // 모든 정비소 데이터 반환
+    }
 }

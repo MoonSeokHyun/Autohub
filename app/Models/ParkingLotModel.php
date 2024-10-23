@@ -56,4 +56,17 @@ class ParkingLotModel extends Model
     {
         return $this->countAll();
     }
+
+    // chunk 메소드 재정의
+    public function chunk(int $size, \Closure $callback)
+    {
+        return parent::chunk($size, $callback);
+    }
+
+    // 사이트맵용 데이터 가져오기
+    public function getSitemapData()
+    {
+        return $this->findAll(); // 모든 주차장 데이터 반환
+    }
+    
 }

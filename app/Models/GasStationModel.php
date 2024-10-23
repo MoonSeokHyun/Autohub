@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use CodeIgniter\Model;
@@ -114,5 +115,16 @@ class GasStationModel extends Model
         // 검색어가 없으면 모든 주유소 반환
         return $this->paginate($limit, 'gasStationsGroup');
     }
+
+    // chunk 메소드 재정의
+    public function chunk(int $size, \Closure $callback)
+    {
+        return parent::chunk($size, $callback);
+    }
+
+    // 사이트맵용 데이터 가져오기
+    public function getSitemapData()
+    {
+        return $this->findAll(); // 모든 주유소 데이터 반환
+    }
 }
-?>

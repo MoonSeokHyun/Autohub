@@ -11,9 +11,6 @@ $routes->get('/', 'ParkingController::index'); // 기본 페이지를 ParkingCon
 $routes->get('parking', 'ParkingController::index');
 $routes->get('parking/search', 'ParkingController::search');
 $routes->get('parking/detail/(:num)', 'ParkingController::detail/$1');
-$routes->get('charging_stations/fetch', 'ChargingStationController::fetchAndSave');
-$routes->get('charging_stations/loading', 'ChargingStationController::loadProgress');
-$routes->get('charging_stations', 'ChargingStationController::index'); // 목록 페이지 추가
 $routes->get('gas_stations', 'GasStationController::index');
 $routes->get('gas_stations/(:num)', 'GasStationController::detail/$1');
 
@@ -25,4 +22,6 @@ $routes->get('gas_stations/search', 'GasStationController::search');
 // 자동차 정비소 검색 라우트 추가
 $routes->get('automobile_repair_shops/search', 'AutomobileRepairShopController::search');
 
-$routes->get('/sitemap.xml', 'SitemapController::index');
+$routes->get('sitemap.xml', 'SitemapController::index');
+$routes->get('sitemap_index.xml', 'SitemapController::sitemapIndex');
+
