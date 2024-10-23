@@ -22,6 +22,6 @@ $routes->get('gas_stations/search', 'GasStationController::search');
 // 자동차 정비소 검색 라우트 추가
 $routes->get('automobile_repair_shops/search', 'AutomobileRepairShopController::search');
 
-$routes->get('sitemap.xml', 'SitemapController::index');
-$routes->get('sitemap_index.xml', 'SitemapController::sitemapIndex');
-
+$routes->get('generate-sitemap', 'SitemapController::generate');
+$routes->get('sitemap.xml', 'SitemapController::view');
+$routes->get('sitemap_index.xml', 'SitemapController::index');

@@ -2,114 +2,93 @@
 
 namespace App\Controllers;
 
-use App\Models\ParkingLotModel;
 use App\Models\GasStationModel;
+use App\Models\ParkingLotModel;
 use App\Models\AutomobileRepairShopModel;
 
 class SitemapController extends BaseController
 {
+    public function generate()
+    {
+        // PHP 설정 변경 (타임아웃과 메모리 제한)
+        set_time_limit(300); // 스크립트 최대 실행 시간 300초
+        ini_set('memory_limit', '1024M'); // 메모리 제한 512MB
+
+        // 모델 인스턴스 생성
+        $gasStationModel = new GasStationModel();
+        $parkingLotModel = new ParkingLotModel();
+        $automobileRepairShopModel = new AutomobileRepairShopModel();
+
+        // 각 모델에서 데이터 가져오기
+        $gasStations = $gasStationModel->findAll();
+        $parkingLots = $parkingLotModel->findAll();
+        $repairShops = $automobileRepairShopModel->findAll();
+
+        // 사이트맵 URL 배열
+        $sitemapUrls = [];
+
+        // 주유소 사이트맵 생성
+        $this->createSitemap('gas_station', $gasStations, $sitemapUrls);
+        // 주차장 사이트맵 생성
+        $this->createSitemap('parking_lot', $parkingLots, $sitemapUrls);
+        // 자동차 수리점 사이트맵 생성
+        $this->createSitemap('automobile_repair_shop', $repairShops, $sitemapUrls);
+
+        // 인덱스 XML 생성
+        $indexContent = '<?xml version="1.0" encoding="UTF-8"?>';
+        $indexContent .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap-image/1.1">';
+        foreach ($sitemapUrls as $url) {
+            $indexContent .= '<sitemap><loc>' . base_url($url) . '</loc></sitemap>';
+        }
+        $indexContent .= '</sitemapindex>';
+
+        // 인덱스 파일 저장
+        file_put_contents(APPPATH . 'Views/sitemaps/sitemap_index.xml', $indexContent);
+
+        return '사이트맵과 인덱스가 생성되었습니다.';
+    }
+
+    private function createSitemap($type, $items, &$sitemapUrls)
+    {
+        $batchSize = 5000; // 한 번에 처리할 항목 수
+        $totalItems = count($items);
+        $sitemapIndex = 0;
+
+        while ($totalItems > 0) {
+            $sitemapContent = '<?xml version="1.0" encoding="UTF-8"?>';
+            $sitemapContent .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap-image/1.1">';
+
+            // 현재 배치의 항목 추출
+            $currentItems = array_splice($items, 0, $batchSize);
+            foreach ($currentItems as $item) {
+                $url = base_url("{$type}/{$item['id']}");
+                $sitemapContent .= '<url>';
+                $sitemapContent .= '<loc>' . $url . '</loc>';
+                $sitemapContent .= '<lastmod>' . date('Y-m-d') . '</lastmod>';
+                $sitemapContent .= '<changefreq>monthly</changefreq>';
+                $sitemapContent .= '<priority>0.5</priority>';
+                $sitemapContent .= '</url>';
+            }
+
+            $sitemapContent .= '</urlset>';
+
+            // 파일 저장
+            $filePath = APPPATH . "Views/sitemaps/{$type}_{$sitemapIndex}.xml"; // 인덱스 추가
+            file_put_contents($filePath, $sitemapContent);
+            $sitemapUrls[] = "sitemaps/{$type}_{$sitemapIndex}.xml"; // URL 추가
+
+            $sitemapIndex++;
+            $totalItems -= $batchSize;
+        }
+    }
+
+    public function view()
+    {
+        return $this->response->download(APPPATH . 'Views/sitemaps/sitemap.xml', null);
+    }
+
     public function index()
     {
-        // URL 기본 정보
-        $base_url = 'https://carhub.co.kr';
-        
-        // 주차장, 주유소, 정비소의 URL 목록을 생성
-        $parking_lots = $this->generateUrls('parking/detail', 16070, 32138);
-        $gas_stations = $this->generateUrls('gas_station', 1, 2757);
-        $automobile_repair_shops = $this->generateUrls('automobile_repair_shop', 1, 35512);
-
-        // 사이트맵 파일 생성
-        $this->createSitemap($parking_lots, 'parking');
-        $this->createSitemap($gas_stations, 'gas_station');
-        $this->createSitemap($automobile_repair_shops, 'automobile_repair_shop');
-
-        // 사이트맵 인덱스 생성
-        $sitemaps = [
-            "{$base_url}/writable/sitemaps/parking_sitemap_index.xml",
-            "{$base_url}/writable/sitemaps/gas_station_sitemap_index.xml",
-            "{$base_url}/writable/sitemaps/automobile_repair_shop_sitemap_index.xml",
-        ];
-
-        // Content-Type 헤더 추가
-        header('Content-Type: application/xml; charset=utf-8');
-        
-        // XML 인덱스 뷰 출력
-        return view('sitemaps/sitemap_index', ['sitemaps' => $sitemaps]);
-    }
-
-    private function generateUrls($type, $start, $end)
-    {
-        $urls = [];
-        for ($i = $start; $i <= $end; $i++) {
-            $urls[] = [
-                'loc' => "https://carhub.co.kr/{$type}/{$i}",
-                'lastmod' => date('Y-m-d'),
-                'changefreq' => 'daily',
-                'priority' => '0.8',
-            ];
-        }
-        return $urls;
-    }
-
-    private function createSitemap($urls, $type)
-    {
-        $base_path = WRITEPATH . 'sitemaps/';
-        $count = 0;
-        $index = 1;
-        $url_count = count($urls);
-        $max_urls = 50000; // 사이트맵에 포함할 최대 URL 수
-
-        while ($count < $url_count) {
-            // 5만 개씩 나누어 사이트맵 생성
-            $current_urls = array_slice($urls, $count, $max_urls);
-            $sitemap_content = $this->generateSitemapXml($current_urls);
-            $sitemap_file = "{$base_path}{$type}_sitemap_{$index}.xml";
-
-            // 사이트맵 파일 생성
-            file_put_contents($sitemap_file, $sitemap_content);
-
-            $count += $max_urls;
-            $index++;
-        }
-
-        // 사이트맵 인덱스 생성
-        $this->createSitemapIndex($type, $index - 1);
-    }
-
-    private function generateSitemapXml($urls)
-    {
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
-        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-
-        foreach ($urls as $url) {
-            $xml .= '<url>';
-            $xml .= '<loc>' . $url['loc'] . '</loc>';  // esc() 제거
-            $xml .= '<lastmod>' . $url['lastmod'] . '</lastmod>';  // esc() 제거
-            $xml .= '<changefreq>' . $url['changefreq'] . '</changefreq>';  // esc() 제거
-            $xml .= '<priority>' . $url['priority'] . '</priority>';  // esc() 제거
-            $xml .= '</url>';
-        }
-
-        $xml .= '</urlset>';
-        return $xml;
-    }
-
-    private function createSitemapIndex($type, $index)
-    {
-        $base_path = WRITEPATH . 'sitemaps/';
-        $sitemap_index_content = '<?xml version="1.0" encoding="UTF-8"?>';
-        $sitemap_index_content .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-
-        for ($i = 1; $i <= $index; $i++) {
-            $sitemap_index_content .= '<sitemap>';
-            $sitemap_index_content .= '<loc>https://carhub.co.kr/writable/sitemaps/' . $type . '_sitemap_' . $i . '.xml</loc>';  // esc() 제거
-            $sitemap_index_content .= '<lastmod>' . date('Y-m-d') . '</lastmod>';
-            $sitemap_index_content .= '</sitemap>';
-        }
-
-        $sitemap_index_content .= '</sitemapindex>';
-
-        // 사이트맵 인덱스 파일 생성
-        file_put_contents("{$base_path}{$type}_sitemap_index.xml", $sitemap_index_content);
+        return $this->response->download(APPPATH . 'Views/sitemaps/sitemap_index.xml', null);
     }
 }
