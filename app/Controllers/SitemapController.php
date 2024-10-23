@@ -20,7 +20,7 @@ class SitemapController extends ResourceController
     public function generateSitemap()
     {
         try {
-            $batchCount = $this->sitemapModel->createSitemap();
+            $batchCount = $this->sitemapModel->createSitemap(2000);
             return $this->respond(['message' => $batchCount . '개의 사이트맵 파일이 생성되었습니다.'], 200);
         } catch (\Exception $e) {
             return $this->failServerError('사이트맵 생성 중 오류가 발생했습니다: ' . $e->getMessage());
@@ -40,6 +40,8 @@ class SitemapController extends ResourceController
             ob_end_clean();
         }
         
+        header('Content-Type: application/xml; charset=UTF-8'); // XML 콘텐츠 타입을 명시적으로 설정하여 즉시 XML로 렌더링
+        
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
@@ -52,7 +54,8 @@ class SitemapController extends ResourceController
 
         $xml .= '</sitemapindex>';
 
-        return $this->response->setContentType('application/xml')->setBody($xml);
+        echo $xml;
+        exit;
     }
 
     // 개별 사이트맵 파일 보기
@@ -66,6 +69,8 @@ class SitemapController extends ResourceController
                 ob_end_clean();
             }
             
+            header('Content-Type: application/xml; charset=UTF-8'); // XML 콘텐츠 타입을 명시적으로 설정하여 즉시 XML로 렌더링
+            
             $xmlContent = file_get_contents($filePath);
             
             // 네임스페이스 추가 확인 및 수정
@@ -73,7 +78,8 @@ class SitemapController extends ResourceController
                 $xmlContent = str_replace('<urlset>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', $xmlContent);
             }
             
-            return $this->response->setContentType('application/xml')->setBody($xmlContent);
+            echo $xmlContent;
+            exit;
         } else {
             return $this->failNotFound('해당 사이트맵 파일을 찾을 수 없습니다.');
         }
@@ -81,5 +87,3 @@ class SitemapController extends ResourceController
 }
 
 ?>
-
-
