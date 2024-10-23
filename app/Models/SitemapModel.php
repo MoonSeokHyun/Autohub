@@ -90,7 +90,7 @@ class SitemapModel extends Model
 
         for ($i = 0; $i < $batchCount; $i++) {
             $xml = '<?xml version="1.0" encoding="UTF-8"?>';
-            $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap-image/1.1">';
+            $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'; // 올바른 네임스페이스로 수정
 
             // 현재 배치의 URL 가져오기
             $currentBatch = array_slice($urls, $i * $batchSize, $batchSize);

@@ -73,7 +73,10 @@ class SitemapController extends ResourceController
             
             $xmlContent = file_get_contents($filePath);
             
-            // Ensure namespace is added
+            // Remove existing wrong namespace if found
+            $xmlContent = str_replace('xmlns="http://www.sitemaps.org/schemas/sitemap-image/1.1"', '', $xmlContent);
+
+            // Ensure correct namespace is added
             if (strpos($xmlContent, 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"') === false) {
                 $xmlContent = str_replace('<urlset>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', $xmlContent);
             }
