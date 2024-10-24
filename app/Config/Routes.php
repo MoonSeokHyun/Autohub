@@ -27,3 +27,13 @@ $routes->group('sitemap', function($routes) {
     $routes->get('index', 'SitemapController::sitemapIndex'); // 사이트맵 인덱스 보기
     $routes->get('view/(:any)', 'SitemapController::viewSitemap/$1'); // 개별 사이트맵 파일 보기
 });
+
+
+// 배치 관련 
+
+$routes->cli('batch/update-parking-data', 'BatchController::updateParkingData');
+$routes->get('/batch/update-parking-data', 'BatchController::updateParkingData');
+
+// 주유소 배치 
+$routes->cli('batch/update-gas-station-data', 'GasStationBatchController::updateGasStationData');
+$routes->get('/batch/update-gas-station-data', 'GasStationBatchController::updateGasStationData');

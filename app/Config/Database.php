@@ -26,10 +26,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => '203.245.28.201', // 로컬호스트
-        'username'     => 'mls0000', // 사용자 이름
-        'password'     => 'Alcls1475', // 비밀번호
-        'database'     => 'ParkingNet', // 데이터베이스 이름
+        'hostname'     => '127.0.0.1', // 로컬호스트로 변경
+        'username'     => 'root', // 로컬에서 사용하는 사용자 이름
+        'password'     => '1234', // 로컬에서 사용하는 비밀번호
+        'database'     => 'ParkingNet', // 데이터베이스 이름 그대로 유지
         'DBDriver'     => 'MySQLi', // 또는 'PDO' 사용
         'DBPrefix'     => '',
         'pConnect'     => false,
@@ -61,8 +61,8 @@ class Database extends Config
     public array $tests = [
         'DSN'         => '',
         'hostname'    => '127.0.0.1',
-        'username'    => '',
-        'password'    => '',
+        'username'    => 'root', // 로컬 테스트 환경에 맞게 사용자 이름 수정
+        'password'    => '1234', // 로컬 테스트 환경에 맞게 비밀번호 수정
         'database'    => ':memory:',
         'DBDriver'    => 'SQLite3',
         'DBPrefix'    => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
