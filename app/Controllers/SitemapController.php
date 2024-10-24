@@ -36,11 +36,12 @@ class SitemapController extends ResourceController
         });
         
         // Clear any previous output (Unicode BOM removal)
-        if (ob_get_level()) {
+        while (ob_get_level()) {
             ob_end_clean();
         }
         
-        header('Content-Type: application/xml; charset=UTF-8'); // Explicitly set XML content type for immediate rendering
+        // Set content type to ensure it is correctly set
+        header('Content-Type: application/xml; charset=UTF-8');
         
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
@@ -65,12 +66,14 @@ class SitemapController extends ResourceController
 
         if (file_exists($filePath)) {
             // Clear any previous output (Unicode BOM removal)
-            if (ob_get_level()) {
+            while (ob_get_level()) {
                 ob_end_clean();
             }
             
-            header('Content-Type: application/xml; charset=UTF-8'); // Explicitly set XML content type for immediate rendering
+            // Set content type to ensure it is correctly set
+            header('Content-Type: application/xml; charset=UTF-8');
             
+            // Load and modify the XML content if necessary
             $xmlContent = file_get_contents($filePath);
             
             // Remove existing wrong namespace if found
@@ -80,6 +83,9 @@ class SitemapController extends ResourceController
             if (strpos($xmlContent, 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"') === false) {
                 $xmlContent = str_replace('<urlset>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', $xmlContent);
             }
+
+            // Additional formatting fix to ensure no leading/trailing spaces
+            $xmlContent = trim($xmlContent);
             
             echo $xmlContent;
             exit;
