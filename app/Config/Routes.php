@@ -42,3 +42,5 @@ $routes->get('/batch/update-gas-station-data', 'GasStationBatchController::updat
 $routes->post('parking/saveComment', 'ParkingController::saveComment');
 // 주유소 댓글 
 $routes->post('/gas_station/saveComment', 'GasStationController::saveComment');
+// 정비소 댓글
+$routes->post('automobile_repair_shop/saveReview', 'AutomobileRepairShopController::saveReview');

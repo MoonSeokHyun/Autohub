@@ -1,5 +1,5 @@
 <?php
-// 예시로 정비소의 도로명 주소
+// 정비소의 도로명 주소 예시
 $road_address = esc($repair_shop['road_address']);
 
 // 구 이름이나 읍 이름을 추출하기 위한 정규 표현식
@@ -12,7 +12,7 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
 <html lang="ko">
 <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -29,23 +29,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta property="og:image" content="이미지 URL">
     <title><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 정비소</title>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "AutoRepair",
-      "name": "<?= esc($repair_shop['repair_shop_name']); ?>",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "<?= esc($repair_shop['road_address']); ?>",
-        "addressLocality": "<?= esc($district_name); ?>",
-        "addressCountry": "KR"
-      },
-      "telephone": "<?= esc($repair_shop['phone_number']); ?>",
-      "openingHours": "<?= esc($repair_shop['operation_start_time']); ?>-<?= esc($repair_shop['operation_end_time']); ?>",
-      "image": "이미지 URL",
-      "url": "페이지 URL"
-    }
-    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -123,6 +106,95 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             color: #007bff;
             margin: 10px;
         }
+
+        /* 리뷰 스타일 */
+        .comments-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #007bff;
+            background: #f0f8ff;
+            border-radius: 5px;
+        }
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .rating-label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .star {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .star.selected {
+            color: #ffd700;
+        }
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .comment-textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            resize: none;
+            font-size: 14px;
+        }
+        .submit-button {
+            align-self: flex-end;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .comments-list {
+            margin-top: 20px;
+        }
+        .comment-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .comment-rating {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .comment-text {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.4;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -130,10 +202,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <h1><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 정비소</h1>
     </header>
     <div class="container">
-
         <!-- 정비소 기본 정보 출력 -->
         <div class="info">
-            <h2>정비소 기본 정보</h2>
+        <h2>정비소 기본 정보</h2>
             <table class="info-table">
                 <tr>
                     <th>정비소명</th>
@@ -141,7 +212,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </tr>
                 <tr>
                     <th>정비소 종류</th>
-                    <td><?= esc($repair_shop['repair_shop_type']); ?></td>
+                    <td><?= esc($repair_shop['repair_shop_type']); ?>급 정비소</td>
                 </tr>
                 <tr>
                     <th>도로명 주소</th>
@@ -161,35 +232,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </tr>
                 <tr>
                     <th>영업 상태</th>
-                    <td><?= esc($repair_shop['business_status']); ?></td>
+                    <td>
+                        <?php 
+                            echo ($repair_shop['business_status'] == 1) ? '영업중' : (($repair_shop['business_status'] == 2) ? '폐업' : '알 수 없음');
+                        ?>
+                    </td>
                 </tr>
+
                 <tr>
                     <th>휴무일</th>
-                    <td><?= esc($repair_shop['closure_date']); ?></td>
+                    <td>법정 공휴일 휴무</td>
                 </tr>
                 <tr>
                     <th>점심시간</th>
-                    <td><?= esc($repair_shop['break_start_date']); ?> ~ <?= esc($repair_shop['break_end_date']); ?></td>
+                    <td>12:00 ~ 13:00</td>
                 </tr>
                 <tr>
                     <th>영업시간</th>
-                    <td><?= esc($repair_shop['operation_start_time']); ?> ~ <?= esc($repair_shop['operation_end_time']); ?></td>
+                    <td>09:00 ~ 18:00</td>
                 </tr>
                 <tr>
                     <th>관리기관명</th>
                     <td><?= esc($repair_shop['management_agency_name']); ?></td>
-                </tr>
-                <tr>
-                    <th>관리기관 전화번호</th>
-                    <td><?= esc($repair_shop['management_agency_phone']); ?></td>
-                </tr>
-                <tr>
-                    <th>데이터 기준 날짜</th>
-                    <td><?= esc($repair_shop['data_reference_date']); ?></td>
-                </tr>
-                <tr>
-                    <th>제공업체 코드</th>
-                    <td><?= esc($repair_shop['provider_code']); ?></td>
                 </tr>
                 <tr>
                     <th>제공업체명</th>
@@ -199,6 +263,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <!-- 돌아가기 버튼 -->
         <a href="<?= site_url('/automobile_repair_shops') ?>" class="back-button">목록으로 돌아가기</a>
+        
         <!-- 네이버 지도 -->
         <div id="map"></div>
 
@@ -215,49 +280,116 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </thead>
         <tbody>
             <?php 
-            if (empty($nearby_shops)) {
-                echo "<tr><td colspan='4'>근처 정비소 정보가 없습니다.</td></tr>";
-            } else {
-                $nearby_shops = array_slice($nearby_shops, 0, 8);
-                foreach ($nearby_shops as $shop): 
-                    // 거리 값이 0.00022같은 소수점 많은 값을 받아서 소수 첫째 자리까지 반올림
-                    $distance = round($shop['distance'], 1);
-                    ?>
-                    <tr class="table-row" onclick="window.location.href='/automobile_repair_shop/<?= esc($shop['id']) ?>'">
+            if (empty($nearby_shops)) : ?>
+                <tr><td colspan="4">근처 정비소 정보가 없습니다.</td></tr>
+            <?php else : 
+                // 처음 5개의 정비소만 출력하도록 제한
+                $nearby_shops = array_slice($nearby_shops, 0, 5); 
+                foreach ($nearby_shops as $shop) : ?>
+                    <tr onclick="window.location.href='/automobile_repair_shop/<?= esc($shop['id']) ?>'">
                         <td><?= esc($shop['repair_shop_name']); ?></td>
                         <td><?= esc($shop['road_address']); ?></td>
                         <td><?= esc($shop['phone_number']); ?></td>
-                        <td><?= $distance; ?> km</td>
+                        <td><?= round($shop['distance'], 1); ?> km</td>
                     </tr>
                 <?php endforeach; ?>
-            <?php } ?>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>
+
+
+        <!-- 리뷰 및 평점 기능 -->
+        <div class="comments-section">
+            <h2>리뷰 남기기 <span>(평균 평점: <?= round($averageRating, 1) ?>)</span></h2>
+            <form action="/automobile_repair_shop/saveReview" method="post" class="comment-form" onsubmit="return validateForm()">
+                <input type="hidden" name="repair_shop_id" value="<?= esc($repair_shop['id']); ?>">
+                <div class="rating" id="star-rating">
+                    <span class="rating-label">평점:</span>
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <span class="star" data-value="<?= $i; ?>">&#9733;</span>
+                    <?php endfor; ?>
+                    <input type="hidden" name="rating" id="rating-value">
+                </div>
+                <textarea name="comment_text" placeholder="리뷰를 등록해주세요!" required class="comment-textarea" id="comment-text"></textarea>
+                <button type="submit" class="submit-button">리뷰 등록</button>
+            </form>
+
+            <h3>리뷰 목록</h3>
+            <div class="comments-list">
+                <?php foreach ($reviews as $review): ?>
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <span class="comment-rating">
+                                <?php for ($i = 1; $i <= 5; $i++): 
+                                    echo ($i <= $review['rating']) ? '<span class="star selected">&#9733;</span>' : '<span class="star">&#9733;</span>';
+                                endfor; ?>
+                            </span>
+                            <span class="comment-date"><?= date('Y-m-d H:i', strtotime($review['created_at'])); ?></span>
+                        </div>
+                        <p class="comment-text"><?= esc($review['comment_text']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
     </div>
 
     <script>
-        // 지도 초기화 코드
-        var map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(<?= esc($repair_shop['latitude']); ?>, <?= esc($repair_shop['longitude']); ?>),
-            zoom: 16
-        });
+    var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(<?= esc($repair_shop['latitude']); ?>, <?= esc($repair_shop['longitude']); ?>),
+        zoom: 16
+    });
+    
+    // 현재 정비소 마커
+    var mainMarker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(<?= esc($repair_shop['latitude']); ?>, <?= esc($repair_shop['longitude']); ?>),
+        map: map,
+        title: '<?= esc($repair_shop['repair_shop_name']); ?>'
+    });
+
+    // 주변 정비소 데이터 (PHP 데이터를 JavaScript로 전달)
+    var nearbyShops = <?php echo json_encode(array_slice($nearby_shops, 0, 5)); ?>;
+
+    // 주변 정비소 마커 표시
+    nearbyShops.forEach(function(shop) {
         var marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(<?= esc($repair_shop['latitude']); ?>, <?= esc($repair_shop['longitude']); ?>),
-            map: map
+            position: new naver.maps.LatLng(shop.latitude, shop.longitude),
+            map: map,
+            title: shop.repair_shop_name
         });
-    </script>
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "d453c02d83e61";
-if(window.wcs) {
-  wcs_do();
-}
+
+        // 정보창 생성
+        var infoWindow = new naver.maps.InfoWindow({
+            content: '<div style="padding:10px;"><b>' + shop.repair_shop_name + '</b><br>' +
+                     '주소: ' + shop.road_address + '<br>' +
+                     '전화번호: ' + shop.phone_number + '</div>'
+        });
+
+        // 마커에 클릭 이벤트 추가 (정보창 열기)
+        naver.maps.Event.addListener(marker, 'click', function() {
+            infoWindow.open(map, marker);
+        });
+    });
+
+    // 별점 선택 기능
+    document.querySelectorAll('#star-rating .star').forEach(star => {
+        star.addEventListener('click', function() {
+            const ratingValue = this.getAttribute('data-value');
+            document.getElementById('rating-value').value = ratingValue;
+            document.querySelectorAll('#star-rating .star').forEach(s => s.classList.remove('selected'));
+            for (let i = 0; i < ratingValue; i++) {
+                document.querySelectorAll('#star-rating .star')[i].classList.add('selected');
+            }
+        });
+    });
+
+    // 폼 유효성 검사
+    function validateForm() {
+        const ratingValue = document.getElementById("rating-value").value;
+        const commentText = document.getElementById("comment-text").value.trim();
+        return ratingValue && commentText;
+    }
 </script>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WVK2PC5J"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
 </body>
 </html>
