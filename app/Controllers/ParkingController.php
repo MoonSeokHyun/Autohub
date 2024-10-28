@@ -10,31 +10,41 @@ class ParkingController extends BaseController
     public function index()
     {
         $model = new ParkingLotModel();
+        $commentModel = new CommentModel();
 
         // 페이지네이션 설정
-        $perPage = 10; // 한 페이지에 보여줄 주차장 수
-        $data['parkingLots'] = $model->paginate($perPage); // 페이지네이션 사용
+        $perPage = 5;
+        $data['parkingLots'] = $model->paginate($perPage);
         $data['pager'] = $model->pager;
 
-        // 뷰에 데이터 전달
+        // 최근 추가된 주차장 가져오기
+        $data['recentParkingLots'] = $model->select('id, name, address_road')->orderBy('id', 'DESC')->limit(5)->findAll() ?? [];
+
+        // 인기 주차장 (평균 별점 기준)
+        $data['popularParkingLots'] = $commentModel->select('parking_lot.id, parking_lot.name, COUNT(comments.id) AS review_count, AVG(comments.rating) AS average_rating')
+            ->join('parking_lot', 'comments.parking_lot_id = parking_lot.id')
+            ->groupBy('comments.parking_lot_id')
+            ->orderBy('average_rating', 'DESC')
+            ->limit(5)
+            ->findAll() ?? [];
+
+        // 최근 추가된 리뷰 가져오기
+        $data['recentReviews'] = $commentModel->select('comments.comment_text, comments.created_at, comments.rating, parking_lot.id AS parking_lot_id, parking_lot.name AS parking_lot_name')
+            ->join('parking_lot', 'comments.parking_lot_id = parking_lot.id')
+            ->orderBy('comments.created_at', 'DESC')
+            ->limit(5)
+            ->findAll() ?? [];
+
+        // 1km 이내 주차장 가져오기
+        $centerLat = 37.5665;
+        $centerLng = 126.9780;
+        $data['nearbyParkingLots'] = $model->select("id, name, latitude, longitude, (6371 * acos(cos(radians($centerLat)) * cos(radians(latitude)) * cos(radians(longitude) - radians($centerLng)) + sin(radians($centerLat)) * sin(radians(latitude)))) AS distance")
+            ->having('distance <=', 1) // 1km 이내
+            ->orderBy('distance', 'ASC')
+            ->limit(20)
+            ->findAll() ?? [];
+
         return view('parking/index', $data);
-    }
-
-    public function search()
-    {
-        $searchTerm = $this->request->getVar('search'); // 쿼리에서 검색어 가져오기
-        $model = new ParkingLotModel();
-
-        // 검색어가 있는 경우 페이지네이션 사용하여 검색
-        $perPage = 10; // 한 페이지에 보여줄 주차장 수
-        $data['parkingLots'] = $model
-            ->like('name', $searchTerm)
-            ->orLike('address_road', $searchTerm)
-            ->paginate($perPage); // 검색 결과에 페이지네이션 사용
-
-        $data['pager'] = $model->pager; // 페이지네이션 객체 설정
-
-        return view('parking/index', $data); // 같은 뷰를 재사용
     }
 
     public function detail($id)
