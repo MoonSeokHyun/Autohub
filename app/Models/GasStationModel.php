@@ -127,4 +127,17 @@ class GasStationModel extends Model
     {
         return $this->findAll(); // 모든 주유소 데이터 반환
     }
+
+    public function getAverageRating($stationId)
+    {
+        // 평점 데이터를 저장하는 테이블의 이름이 'gas_station_reviews'라고 가정
+        $db = \Config\Database::connect();
+        $builder = $db->table('gas_station_reviews');
+        $builder->selectAvg('rating', 'average_rating');
+        $builder->where('station_id', $stationId);
+
+        $result = $builder->get()->getRow();
+        return $result ? $result->average_rating : null;
+    }
+
 }
