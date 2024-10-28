@@ -37,3 +37,6 @@ $routes->get('/batch/update-parking-data', 'BatchController::updateParkingData')
 // 주유소 배치 
 $routes->cli('batch/update-gas-station-data', 'GasStationBatchController::updateGasStationData');
 $routes->get('/batch/update-gas-station-data', 'GasStationBatchController::updateGasStationData');
+
+// 주유소 댓글 
+$routes->post('parking/saveComment', 'ParkingController::saveComment');
