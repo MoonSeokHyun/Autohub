@@ -51,17 +51,35 @@ class ParkingController extends BaseController
     {
         $parkingLotModel = new ParkingLotModel();
         $commentModel = new CommentModel();
-
+    
         // 주차장 상세 정보 가져오기
         $parkingLot = $parkingLotModel->find($id);
-
+    
+        // 주차장 정보 유효성 확인 및 가상의 위치 정보 할당
+        if (!$parkingLot) {
+            // 기본 가상의 주차장 데이터 설정
+            $parkingLot = [
+                'id' => $id,
+                'name' => '가상의 주차장',
+                'latitude' => 37.5665, // 서울 시청 근처 위도
+                'longitude' => 126.9780, // 서울 시청 근처 경도
+                // 필요한 추가 정보도 여기에 채워줄 수 있습니다.
+            ];
+        } else {
+            // 위도와 경도가 없는 경우 가상의 위치 할당
+            if (!isset($parkingLot['latitude']) || !isset($parkingLot['longitude'])) {
+                $parkingLot['latitude'] = 37.5665;
+                $parkingLot['longitude'] = 126.9780;
+            }
+        }
+    
         // 주변 주차장 정보 가져오기
         $nearbyParkingLots = $this->getNearbyParkingLots($parkingLot['latitude'], $parkingLot['longitude']);
-
+    
         // 댓글과 평점 가져오기
         $comments = $commentModel->getCommentsByParkingLot($id);
         $averageRating = $commentModel->getAverageRating($id);
-
+    
         // 뷰에 데이터 전달
         return view('parking/detail', [
             'parkingLot' => $parkingLot,
