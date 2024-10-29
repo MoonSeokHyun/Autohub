@@ -49,6 +49,7 @@
         .review-rating { color: #ffa500; font-weight: bold; }
         .clickable-row { cursor: pointer; }
     </style>
+    
 </head>
 <body>
     <header>
