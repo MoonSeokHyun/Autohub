@@ -12,7 +12,7 @@ class AutomobileRepairShopModel extends Model
         'repair_shop_name', 'repair_shop_type', 'road_address', 'land_lot_address', 'latitude', 'longitude', 
         'registration_date', 'area', 'business_status', 'closure_date', 'break_start_date', 'break_end_date', 
         'operation_start_time', 'operation_end_time', 'phone_number', 'management_agency_name', 
-        'management_agency_phone', 'data_reference_date', 'provider_code', 'provider_name'
+        'management_agency_phone', 'data_reference_date', 'provider_code', 'provider_name', 'popularity'
     ];
 
     // 1km 이내의 다른 정비소를 찾기 위한 함수

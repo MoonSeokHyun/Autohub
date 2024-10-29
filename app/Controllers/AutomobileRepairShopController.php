@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\AutomobileRepairShopModel;
 use App\Models\AutomobileRepairShopReviewModel;
-use CodeIgniter\Controller;
 
 class AutomobileRepairShopController extends BaseController
 {
@@ -19,11 +18,10 @@ class AutomobileRepairShopController extends BaseController
 
     public function index()
     {
-        // 페이지네이션 설정
         $pager = \Config\Services::pager();
-        $perPage = 10; // 한 페이지에 보여줄 항목 수
+        $perPage = 5;
 
-        // 검색어가 있는 경우 필터링
+        // 검색어 필터링
         $search = $this->request->getGet('search');
         if ($search) {
             $repair_shops = $this->repairShopModel->like('repair_shop_name', $search)
@@ -33,11 +31,31 @@ class AutomobileRepairShopController extends BaseController
             $repair_shops = $this->repairShopModel->paginate($perPage);
         }
 
-        // 뷰로 전달할 데이터
+        // 최근 추가된 정비소
+        $recentRepairShops = $this->repairShopModel->orderBy('id', 'DESC')->findAll(5);
+
+        // 인기 정비소: 리뷰 개수와 평균 평점을 조인하여 가져오기
+        $popularRepairShops = $this->repairShopModel
+            ->select('automobile_repair_shop.id as repair_shop_id, automobile_repair_shop.repair_shop_name, COUNT(automobile_repair_shop_reviews.id) as review_count, AVG(automobile_repair_shop_reviews.rating) as average_rating')
+            ->join('automobile_repair_shop_reviews', 'automobile_repair_shop.id = automobile_repair_shop_reviews.repair_shop_id', 'left')
+            ->groupBy('automobile_repair_shop.id')
+            ->orderBy('review_count', 'DESC')
+            ->findAll(5);
+
+        // 최근 리뷰와 함께 정비소 이름 가져오기
+        $recentReviews = $this->reviewModel
+            ->select('automobile_repair_shop_reviews.*, automobile_repair_shop.repair_shop_name')
+            ->join('automobile_repair_shop', 'automobile_repair_shop_reviews.repair_shop_id = automobile_repair_shop.id', 'left')
+            ->orderBy('automobile_repair_shop_reviews.id', 'DESC')
+            ->findAll(5);
+
         return view('automobile_repair_shop/index', [
             'repair_shops' => $repair_shops,
             'pager' => $this->repairShopModel->pager,
-            'search' => $search
+            'search' => $search,
+            'recentRepairShops' => $recentRepairShops,
+            'popularRepairShops' => $popularRepairShops,
+            'recentReviews' => $recentReviews
         ]);
     }
 
@@ -54,16 +72,10 @@ class AutomobileRepairShopController extends BaseController
         // 1km 이내의 다른 정비소
         $nearby_shops = $this->repairShopModel->getNearbyRepairShops($repair_shop['latitude'], $repair_shop['longitude'], 1);
 
-        // 리뷰 정보 가져오기
-        $reviews = $this->reviewModel->where('repair_shop_id', $id)->findAll();
+        // 정비소에 대한 모든 리뷰 가져오기
+        $reviews = $this->reviewModel->where('repair_shop_id', $id)->orderBy('id', 'DESC')->findAll();
+        $averageRating = $this->reviewModel->getAverageRating($id);
 
-        // 평균 평점 계산
-        $averageRating = 0;
-        if (count($reviews) > 0) {
-            $averageRating = array_sum(array_column($reviews, 'rating')) / count($reviews);
-        }
-
-        // 디테일 뷰로 데이터 전달
         return view('automobile_repair_shop/detail', [
             'repair_shop' => $repair_shop,
             'nearby_shops' => $nearby_shops,
@@ -78,7 +90,6 @@ class AutomobileRepairShopController extends BaseController
         $rating = $this->request->getPost('rating');
         $commentText = $this->request->getPost('comment_text');
 
-        // 리뷰 저장
         $this->reviewModel->save([
             'repair_shop_id' => $repairShopId,
             'rating' => $rating,
