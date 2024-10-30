@@ -17,15 +17,20 @@ class GasStationController extends BaseController
 
     public function index()
     {
-        // 모델에서 페이징 처리된 주유소 목록 가져오기 (예: 페이지당 10개)
-        $page = $this->request->getVar('page') ?? 1;
-        $data['gasStations'] = $this->gasStationModel->paginate(10, 'gasStationsGroup');
-        
-        // Pagination 링크 설정
+        // 기본 주유소 리스트 및 페이징 처리
+        $data['gasStations'] = $this->gasStationModel->paginate(5, 'gasStationsGroup');
         $data['pager'] = $this->gasStationModel->pager;
+    
+        // 최근 주유소와 리뷰 5개씩 가져오기
+        $data['recentGasStations'] = $this->gasStationModel->getRecentGasStations();
+        $data['recentReviews'] = $this->reviewModel->getRecentReviewsWithStationName();
+        
+        // 인기 주유소 가져오기 (조인 사용)
+        $data['popularGasStations'] = $this->gasStationModel->getPopularGasStations();
     
         return view('gas_station/index', $data);
     }
+
 
     public function search()
     {

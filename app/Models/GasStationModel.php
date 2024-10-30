@@ -140,4 +140,24 @@ class GasStationModel extends Model
         return $result ? $result->average_rating : null;
     }
 
+        // 최신 주유소 5개 가져오기 (id 역순)
+        public function getRecentGasStations($limit = 5)
+        {
+            return $this->orderBy('id', 'DESC')->findAll($limit);
+        }
+        public function getPopularGasStations()
+        {
+            $db = \Config\Database::connect();
+            $builder = $db->table('gas_station_info');
+        
+            $builder->select('gas_station_info.id, gas_station_info.gas_station_name, gas_station_info.road_address, COUNT(gas_station_reviews.id) as review_count, AVG(gas_station_reviews.rating) as average_rating');
+            $builder->join('gas_station_reviews', 'gas_station_info.id = gas_station_reviews.station_id', 'left');
+            $builder->groupBy('gas_station_info.id');
+            $builder->orderBy('review_count', 'DESC');
+            $builder->limit(5); // 원하는 인기 주유소 개수 설정
+        
+            return $builder->get()->getResultArray();
+        }
+
+
 }
