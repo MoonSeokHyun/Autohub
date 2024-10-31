@@ -198,5 +198,14 @@
         <p>이 웹 사이트는 영리 목적으로 만들어진 사이트입니다.</p>
         <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com" style="color: #007bff; text-decoration: none;">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
     </footer>
+    	
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "d453c02d83e61";
+if(window.wcs) {
+wcs_do();
+}
+</script>
 </body>
 </html>

@@ -214,5 +214,14 @@
         }
         setInterval(showSlide, 1000);
     </script>
+    	
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "d453c02d83e61";
+if(window.wcs) {
+wcs_do();
+}
+</script>
 </body>
 </html>

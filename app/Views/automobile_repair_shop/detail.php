@@ -397,6 +397,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         return ratingValue && commentText;
     }
 </script>
-
+	
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "d453c02d83e61";
+if(window.wcs) {
+wcs_do();
+}
+</script>
 </body>
 </html>
