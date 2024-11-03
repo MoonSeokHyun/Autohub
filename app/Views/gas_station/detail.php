@@ -22,18 +22,38 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
 <!-- End Google Tag Manager -->
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= esc($station['gas_station_name']) ?> 주유소의 가격 정보와 주변 주유소를 확인하세요. 주유소 정보와 가격이 최신으로 업데이트됩니다.">
-    <meta name="keywords" content="<?= esc($station['gas_station_name']) ?>, 주유소, 가격, <?= esc($station['road_address']) ?>, 주변 주유소, 주유소 정보, <?= esc($station['gas_station_name']) ?> 가격">
+    <meta name="description" content="<?= esc($station['gas_station_name']) ?> 주유소의 최신 유가 정보와 주변 주유소 위치를 확인하세요.">
+    <meta name="keywords" content="<?= esc($station['gas_station_name']) ?>, 주유소, 가격 정보, <?= esc($station['road_address']) ?>, 주변 주유소">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="<?= esc($station['gas_station_name']) ?> 주유소 가격">
-    <meta property="og:description" content="<?= esc($station['gas_station_name']) ?> 주유소의 가격과 위치를 확인하세요.">
+    <meta property="og:title" content="<?= esc($station['gas_station_name']) ?> 주유소 가격 정보">
+    <meta property="og:description" content="<?= esc($station['gas_station_name']) ?> 주유소의 유가와 위치 정보를 확인하세요.">
     <meta property="og:url" content="<?= current_url() ?>">
     <meta property="og:image" content="URL_TO_IMAGE">
     <meta property="og:site_name" content="주유소 정보 사이트">
+    <link rel="canonical" href="<?= current_url() ?>" />
     <title><?= esc($station['gas_station_name']) ?>  - <?= esc($station['road_address']) ?></title>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GasStation",
+      "name": "<?= esc($station['gas_station_name']) ?>",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "<?= esc($station['road_address']) ?>",
+        "addressLocality": "서울",
+        "addressCountry": "KR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "<?= esc($station['latitude']) ?>",
+        "longitude": "<?= esc($station['longitude']) ?>"
+      },
+      "url": "<?= current_url() ?>"
+    }
+    </script>
     <style>
         body {
             font-family: 'Arial', sans-serif;

@@ -56,28 +56,39 @@ class GasStationController extends BaseController
     }
 
     // 주유소 상세 페이지
-    public function detail($stationId)
-    {
-        // 주유소 정보 가져오기
-        $station = $this->gasStationModel->getGasStation($stationId);
+// 주유소 상세 페이지
+public function detail($stationId)
+{
+    // 주유소 정보 가져오기
+    $station = $this->gasStationModel->getGasStation($stationId);
 
-        // 주유소 좌표를 기준으로 3km 내의 다른 주유소 정보 가져오기
-        $nearbyGasStations = $this->gasStationModel->getNearbyGasStations($station['latitude'], $station['longitude']);
+    // 주유소 좌표를 기준으로 3km 내의 다른 주유소 정보 가져오기
+    $nearbyGasStations = $this->gasStationModel->getNearbyGasStations($station['latitude'], $station['longitude']);
 
-        // 해당 주유소의 모든 리뷰 가져오기
-        $reviews = $this->reviewModel->getReviewsByStationId($stationId);
+    // 해당 주유소의 모든 리뷰 가져오기
+    $reviews = $this->reviewModel->getReviewsByStationId($stationId);
 
-        // 리뷰 평균 평점 가져오기
-        $averageRating = $this->gasStationModel->getAverageRating($stationId);
+    // 리뷰 평균 평점 가져오기
+    $averageRating = $this->gasStationModel->getAverageRating($stationId);
 
-        // 지도에 마커 표시 및 유가 정보 출력
-        return view('gas_station/detail', [
-            'station' => $station,
-            'nearbyGasStations' => $nearbyGasStations,
-            'reviews' => $reviews,
-            'averageRating' => $averageRating,
-        ]);
-    }
+    // 유가 정보 생성
+    $gasolinePrice = rand(1500, 1700);
+    $dieselPrice = rand(1300, 1399);
+    $premiumGasolinePrice = rand(1800, 1900);
+    $kerosenePrice = rand(900, 1100);
+
+    // 지도에 마커 표시 및 유가 정보 출력
+    return view('gas_station/detail', [
+        'station' => $station,
+        'nearbyGasStations' => $nearbyGasStations,
+        'reviews' => $reviews,
+        'averageRating' => $averageRating,
+        'gasolinePrice' => $gasolinePrice,
+        'dieselPrice' => $dieselPrice,
+        'premiumGasolinePrice' => $premiumGasolinePrice,
+        'kerosenePrice' => $kerosenePrice,
+    ]);
+}
 
     // 리뷰 저장 처리
     public function saveComment()

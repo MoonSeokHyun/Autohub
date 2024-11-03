@@ -6,7 +6,44 @@
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Hub - 정비소</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Hub - 정비소, 주유소, 주차장 정보 통합 웹사이트</title>
+    <meta name="description" content="Car Hub에서 서울 및 전국의 최신 정비소, 주유소, 주차장 정보를 확인하세요. 리뷰와 평점을 통해 최적의 정비소를 쉽게 찾으세요.">
+
+    <meta name="keywords" content="정비소, 주유소, 주차장, 서울 정비소, 자동차 관리, 리뷰, 평점, 주차 정보, Car Hub">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= current_url() ?>" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Car Hub - 서울 정비소와 주유소 정보">
+    <meta property="og:description" content="서울 및 전국의 정비소와 주유소 정보를 최신 상태로 제공합니다. 고객 리뷰를 통해 신뢰할 수 있는 정비소를 찾으세요.">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:image" content="URL_TO_IMAGE">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Car Hub - 정비소 정보">
+    <meta name="twitter:description" content="서울과 전국의 최신 정비소 정보를 확인하세요. 사용자 리뷰로 신뢰도 높은 정보를 제공합니다.">
+    <meta name="twitter:image" content="URL_TO_IMAGE">
+
+    <!-- Schema.org JSON-LD 구조화 데이터 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AutoRepair",
+      "name": "Car Hub",
+      "url": "<?= current_url() ?>",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "서울",
+        "addressCountry": "KR"
+      },
+      "description": "서울과 전국의 정비소, 주유소, 주차장 정보를 제공합니다.",
+      "image": "URL_TO_IMAGE"
+    }
+    </script>
     <style>
         /* 기본 스타일 */
         body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f0f9ff; }

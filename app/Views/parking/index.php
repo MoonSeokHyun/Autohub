@@ -4,6 +4,7 @@
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
     <!-- End Google Tag Manager -->
+    <meta name="description" content="Car Hub - 최신 주차장 정보, 인기 주유소, 정비소 정보 및 리뷰를 제공하여 차량 관리에 도움을 드리는 웹사이트입니다. 사용자 리뷰와 평점으로 신뢰성 있는 주차장과 정비소 정보를 쉽게 찾아보세요.">
     <meta name="naver-site-verification" content="7a0d49f3fd680b5f4ab77f8edfd3deb13ee30f11" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -216,14 +217,6 @@
     wcs_add["wa"] = "d453c02d83e61";
     if(window.wcs) { wcs_do(); }
     </script>
-    	
-<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "d453c02d83e61";
-if(window.wcs) {
-wcs_do();
-}
-</script>
+    
 </body>
 </html>

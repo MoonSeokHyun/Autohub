@@ -2,15 +2,12 @@
 <html lang="ko">
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
     <!-- End Google Tag Manager -->
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <?php
         $address = esc($parkingLot['address_road']);
         preg_match('/([가-힣]+(?:구|읍|군))/u', $address, $matches);
@@ -108,7 +105,6 @@
         <!-- 네이버 지도 -->
         <div id="map"></div>
 
-
         <!-- 주변 주차장 정보 테이블 -->
         <div class="nearby-info">
             <h2>주변 주차장 정보</h2>
@@ -141,8 +137,9 @@
                 </tbody>
             </table>
         </div>
-                <!-- 평균 평점 표시 -->
-                <div class="average-rating">
+        
+        <!-- 평균 평점 표시 -->
+        <div class="average-rating">
             <strong>평균 평점:</strong> <?= $averageRating ?> / 5
             <?php for ($i = 1; $i <= 5; $i++): ?>
                 <span class="star <?= ($i <= floor($averageRating)) ? 'selected' : (($i - 0.5) === $averageRating ? 'half' : '') ?>">
@@ -193,11 +190,12 @@
                 <?php endif; ?>
             </div>
         </div>
+
         <footer style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #6c757d;">
-    <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank" style="color: #007bff; text-decoration: none;">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
-    <p>이 웹 사이트는 영리 목적으로 만들어진 사이트입니다.</p>
-    <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com" style="color: #007bff; text-decoration: none;">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
-</footer>
+            <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank" style="color: #007bff; text-decoration: none;">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
+            <p>이 웹 사이트는 영리 목적으로 만들어진 사이트입니다.</p>
+            <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com" style="color: #007bff; text-decoration: none;">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
+        </footer>
 
         <!-- 지도 및 주변 주차장 스크립트 -->
         <script>
@@ -242,14 +240,12 @@
             }
         </script>
     </div>
-    	
-<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "d453c02d83e61";
-if(window.wcs) {
-wcs_do();
-}
-</script>
+
+    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+    <script type="text/javascript">
+        if(!wcs_add) var wcs_add = {};
+        wcs_add["wa"] = "d453c02d83e61";
+        if(window.wcs) { wcs_do(); }
+    </script>
 </body>
 </html>

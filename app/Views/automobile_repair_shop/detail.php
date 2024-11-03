@@ -18,16 +18,50 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
 <!-- End Google Tag Manager -->
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= esc($repair_shop['repair_shop_name']); ?> 정비소는 <?= esc($district_name); ?>에 위치한 전문 자동차 수리업체입니다. 전화번호, 영업시간 등 상세 정보를 확인하세요.">
-    <meta name="keywords" content="<?= esc($repair_shop['repair_shop_name']); ?>, <?= esc($district_name); ?> 정비소, 자동차 수리, 자동차 정비, 서울 정비소">
-    <meta property="og:title" content="<?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 정비소">
-    <meta property="og:description" content="<?= esc($repair_shop['repair_shop_name']); ?>는 <?= esc($district_name); ?> 지역에 있는 전문 정비소로, 신속하고 안전한 자동차 수리를 제공합니다.">
+    <title><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 전문 자동차 정비소</title>
+    <meta name="description" content="<?= esc($repair_shop['repair_shop_name']); ?>는 <?= esc($district_name); ?>에 위치한 믿을 수 있는 자동차 정비소로, 전문가의 손길로 신속하고 안전한 자동차 수리를 제공합니다. 전화번호, 영업시간 등 모든 정보를 확인해보세요.">
+    <meta name="keywords" content="자동차 정비소, <?= esc($repair_shop['repair_shop_name']); ?>, <?= esc($district_name); ?> 정비소, 자동차 수리, <?= esc($repair_shop['provider_name']); ?>">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= current_url() ?>" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="현재 페이지 URL">
-    <meta property="og:image" content="이미지 URL">
-    <title><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 정비소</title>
+    <meta property="og:title" content="<?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 전문 정비소">
+    <meta property="og:description" content="서울 <?= esc($district_name); ?> 지역에 위치한 <?= esc($repair_shop['repair_shop_name']); ?>에서 안전하고 전문적인 자동차 정비 서비스를 경험하세요.">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:image" content="URL_TO_IMAGE">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= esc($repair_shop['repair_shop_name']); ?> - 자동차 정비소 정보">
+    <meta name="twitter:description" content="서울 <?= esc($district_name); ?>에 위치한 신뢰할 수 있는 자동차 정비소, <?= esc($repair_shop['repair_shop_name']); ?>의 상세 정보와 리뷰를 확인하세요.">
+    <meta name="twitter:image" content="URL_TO_IMAGE">
+
+    <!-- Schema.org JSON-LD 구조화 데이터 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AutoRepair",
+      "name": "<?= esc($repair_shop['repair_shop_name']); ?>",
+      "image": "URL_TO_IMAGE",
+      "description": "<?= esc($repair_shop['repair_shop_name']); ?>는 <?= esc($district_name); ?>에 위치한 전문 자동차 정비소입니다.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "<?= esc($repair_shop['road_address']); ?>",
+        "addressLocality": "<?= esc($district_name); ?>",
+        "addressCountry": "KR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "<?= esc($repair_shop['latitude']); ?>",
+        "longitude": "<?= esc($repair_shop['longitude']); ?>"
+      },
+      "telephone": "<?= esc($repair_shop['phone_number']); ?>",
+      "url": "<?= current_url() ?>"
+    }
+    </script>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     <style>
         body {

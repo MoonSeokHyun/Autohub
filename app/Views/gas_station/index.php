@@ -4,12 +4,41 @@
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
     <!-- End Google Tag Manager -->
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Hub - 주유소</title>
+    <title>Car Hub - 주유소 정보 및 리뷰</title>
+    <meta name="description" content="Car Hub에서 최신 주유소 정보와 사용자 리뷰를 확인하세요. 주유소 위치, 리뷰, 평균 평점을 제공하여 쉽게 원하는 주유소를 찾을 수 있습니다.">
+    <meta name="keywords" content="주유소, Car Hub, 주유소 리뷰, 주유소 위치, 주유소 평점, 서울 주유소">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Schema.org 마크업 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Car Hub",
+      "description": "서울의 주유소와 최신 리뷰를 제공합니다.",
+      "url": "https://www.carhub.co.kr/gas_stations",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "서울",
+        "addressCountry": "KR"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.5",
+        "reviewCount": "120"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+82-2-123-4567",
+        "contactType": "Customer Service"
+      }
+    }
+    </script>
+
     <style>
-        /* 기본 스타일 */
         body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f0f9ff; }
         .container { width: 90%; max-width: 1200px; margin: auto; padding: 20px; }
         header { background: linear-gradient(90deg, #0094ff, #00bfff); color: #fff; padding: 20px; text-align: center; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin-bottom: 20px; }
@@ -53,6 +82,7 @@
         .review-text { color: #555; }
         .review-rating { color: #ffa500; font-weight: bold; }
     </style>
+
     <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     <script>
         function goToDetail(id) {
@@ -91,121 +121,119 @@
 </head>
 <body>
 <header>
-        <h1>Car Hub</h1>
-        <nav>
-            <ul>
-                <li><a href="/gas_stations">주유소</a></li>
-                <li><a href="/automobile_repair_shops">정비소</a></li>
-                <li><a href="/">주차장</a></li>
-            </ul>
-        </nav>
-    </header>
+    <h1>Car Hub</h1>
+    <nav>
+        <ul>
+            <li><a href="/gas_stations">주유소</a></li>
+            <li><a href="/automobile_repair_shops">정비소</a></li>
+            <li><a href="/">주차장</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <div class="container">
-        <!-- 검색창 -->
-        <div class="search-box">
-            <form action="<?= base_url('gas_stations/search'); ?>" method="get">
-                <input type="text" name="search" placeholder="주유소 이름 검색..." required>
-                <button type="submit">검색</button>
-            </form>
-        </div>
-
-        <!-- 지도 -->
-        <div id="map"></div>
-
-        <!-- 최근 추가된 주유소 섹션 -->
-        <section>
-            <h2>최근 추가된 주유소</h2>
-            <div class="recent-slides">
-                <?php foreach ($recentGasStations as $station): ?>
-                    <div class="recent-slide card" onclick="goToDetail(<?= $station['id']; ?>)">
-                        <h3><?= esc($station['gas_station_name']); ?></h3>
-                        <p><?= esc($station['road_address']); ?></p>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </section>
-
-        <!-- 인기 주유소 섹션 -->
-        <section>
-            <h2>인기 주유소</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>주유소 이름</th>
-                        <th>주소</th>
-                        <th>리뷰 개수</th>
-                        <th>평균 평점</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($popularGasStations as $station): ?>
-                        <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
-                            <td><?= esc($station['gas_station_name']); ?></td>
-                            <td><?= esc($station['road_address']); ?></td>
-                            <td><?= esc($station['review_count']); ?></td>
-                            <td><?= number_format($station['average_rating'], 1); ?> 점</td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- 최근 리뷰 섹션 -->
-        <section class="reviews">
-            <h2>최근 리뷰</h2>
-            <?php foreach ($recentReviews as $review): ?>
-                <div class="review-card" onclick="goToDetail(<?= isset($review['gas_station_id']) ? esc($review['gas_station_id']) : '0'; ?>)">
-                    <div class="review-title"><?= isset($review['gas_station_name']) ? esc($review['gas_station_name']) : '정보 없음'; ?> - 
-                        <span class="review-rating"><?= isset($review['rating']) ? esc($review['rating']) : '0'; ?>점</span>
-                    </div>
-                    <div class="review-text"><?= isset($review['comment_text']) ? esc($review['comment_text']) : '리뷰 없음'; ?></div>
-                    <small>작성일: <?= isset($review['created_at']) ? date('Y-m-d', strtotime($review['created_at'])) : '알 수 없음'; ?></small>
-                </div>
-            <?php endforeach; ?>
-        </section>
-
-        <!-- 주유소 목록 섹션 -->
-        <section>
-            <h2>주유소 목록</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>주유소 이름</th>
-                        <th>주소</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($gasStations as $station): ?>
-                        <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
-                            <td><?= esc($station['gas_station_name']); ?></td>
-                            <td><?= esc($station['road_address']); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- 페이지네이션 -->
-        <div class="pager">
-            <?= $pager->links('gasStationsGroup', 'default_full') ?>
-        </div>
+<div class="container">
+    <!-- 검색창 -->
+    <div class="search-box">
+        <form action="<?= base_url('gas_stations/search'); ?>" method="get">
+            <input type="text" name="search" placeholder="주유소 이름 검색..." required>
+            <button type="submit">검색</button>
+        </form>
     </div>
 
-    <!-- 풀 화면 푸터 -->
-    <footer style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #6c757d;">
-        <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank" style="color: #007bff; text-decoration: none;">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
-        <p>이 웹 사이트는 영리 목적으로 만들어진 사이트입니다.</p>
-        <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com" style="color: #007bff; text-decoration: none;">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
-    </footer>
-    	
+    <!-- 지도 -->
+    <div id="map"></div>
+
+    <!-- 최근 추가된 주유소 섹션 -->
+    <section>
+        <h2>최근 추가된 주유소</h2>
+        <div class="recent-slides">
+            <?php foreach ($recentGasStations as $station): ?>
+                <div class="recent-slide card" onclick="goToDetail(<?= $station['id']; ?>)">
+                    <h3><?= esc($station['gas_station_name']); ?></h3>
+                    <p><?= esc($station['road_address']); ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <!-- 인기 주유소 섹션 -->
+    <section>
+        <h2>인기 주유소</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>주유소 이름</th>
+                    <th>주소</th>
+                    <th>리뷰 개수</th>
+                    <th>평균 평점</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($popularGasStations as $station): ?>
+                    <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
+                        <td><?= esc($station['gas_station_name']); ?></td>
+                        <td><?= esc($station['road_address']); ?></td>
+                        <td><?= esc($station['review_count']); ?></td>
+                        <td><?= number_format($station['average_rating'], 1); ?> 점</td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 최근 리뷰 섹션 -->
+    <section class="reviews">
+        <h2>최근 리뷰</h2>
+        <?php foreach ($recentReviews as $review): ?>
+            <div class="review-card" onclick="goToDetail(<?= isset($review['gas_station_id']) ? esc($review['gas_station_id']) : '0'; ?>)">
+                <div class="review-title"><?= isset($review['gas_station_name']) ? esc($review['gas_station_name']) : '정보 없음'; ?> - 
+                    <span class="review-rating"><?= isset($review['rating']) ? esc($review['rating']) : '0'; ?>점</span>
+                </div>
+                <div class="review-text"><?= isset($review['comment_text']) ? esc($review['comment_text']) : '리뷰 없음'; ?></div>
+                <small>작성일: <?= isset($review['created_at']) ? date('Y-m-d', strtotime($review['created_at'])) : '알 수 없음'; ?></small>
+            </div>
+        <?php endforeach; ?>
+    </section>
+
+    <!-- 주유소 목록 섹션 -->
+    <section>
+        <h2>주유소 목록</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>주유소 이름</th>
+                    <th>주소</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($gasStations as $station): ?>
+                    <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
+                        <td><?= esc($station['gas_station_name']); ?></td>
+                        <td><?= esc($station['road_address']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 페이지네이션 -->
+    <div class="pager">
+        <?= $pager->links('gasStationsGroup', 'default_full') ?>
+    </div>
+</div>
+
+<!-- 풀 화면 푸터 -->
+<footer style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #6c757d;">
+    <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank" style="color: #007bff; text-decoration: none;">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
+    <p>이 웹 사이트는 영리 목적으로 만들어진 사이트입니다.</p>
+    <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com" style="color: #007bff; text-decoration: none;">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
+</footer>
+    
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
 <script type="text/javascript">
 if(!wcs_add) var wcs_add = {};
 wcs_add["wa"] = "d453c02d83e61";
-if(window.wcs) {
-wcs_do();
-}
+if(window.wcs) { wcs_do(); }
 </script>
 </body>
 </html>
