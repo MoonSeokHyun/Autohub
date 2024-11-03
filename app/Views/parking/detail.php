@@ -20,6 +20,17 @@
     <title><?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장</title>
     <meta name="description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보입니다. 주소, 전화번호, 운영시간 등 정보를 확인하세요.">
 
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장 정보">
+    <meta property="og:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
+    <meta property="og:url" content="<?= current_url(); ?>">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE"> <!-- 사이트 대표 이미지 URL 추가 -->
+
+    <!-- Twitter Card Data -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장 정보">
+    <meta name="twitter:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
+    <meta name="twitter:image" content="URL_TO_YOUR_IMAGE">
     <!-- 네이버 지도 API 추가 -->
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     <style>

@@ -23,16 +23,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?= esc($station['gas_station_name']) ?> 주유소의 최신 유가 정보와 주변 주유소 위치를 확인하세요.">
     <meta name="keywords" content="<?= esc($station['gas_station_name']) ?>, 주유소, 가격 정보, <?= esc($station['road_address']) ?>, 주변 주유소">
+    
+    <!-- Open Graph meta tags for social media sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="<?= esc($station['gas_station_name']) ?> 주유소 가격 정보">
     <meta property="og:description" content="<?= esc($station['gas_station_name']) ?> 주유소의 유가와 위치 정보를 확인하세요.">
     <meta property="og:url" content="<?= current_url() ?>">
-    <meta property="og:image" content="URL_TO_IMAGE">
-    <meta property="og:site_name" content="주유소 정보 사이트">
-    <link rel="canonical" href="<?= current_url() ?>" />
+    <meta property="og:image" content="URL_TO_IMAGE"> <!-- 주유소 대표 이미지 URL 추가 -->
+    <meta property="og:site_name" content="Car Hub - 주유소 정보 사이트">
+
+    <!-- Twitter meta tags for social media sharing -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= esc($station['gas_station_name']) ?> 주유소 가격 정보">
+    <meta name="twitter:description" content="<?= esc($station['gas_station_name']) ?> 주유소의 유가와 위치 정보를 확인하세요.">
+    <meta name="twitter:image" content="URL_TO_IMAGE">
+
     <title><?= esc($station['gas_station_name']) ?>  - <?= esc($station['road_address']) ?></title>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     <script type="application/ld+json">

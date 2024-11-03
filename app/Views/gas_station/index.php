@@ -12,6 +12,20 @@
     <meta name="keywords" content="주유소, Car Hub, 주유소 리뷰, 주유소 위치, 주유소 평점, 서울 주유소">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+    <meta property="og:title" content="Car Hub - 서울 정비소와 주유소 정보">
+    <meta property="og:description" content="서울 및 전국의 정비소와 주유소 정보를 최신 상태로 제공합니다. 고객 리뷰를 통해 신뢰할 수 있는 정비소를 찾으세요.">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:image" content="URL_TO_IMAGE">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Car Hub - 정비소 정보">
+    <meta name="twitter:description" content="서울과 전국의 최신 정비소 정보를 확인하세요. 사용자 리뷰로 신뢰도 높은 정보를 제공합니다.">
+    <meta name="twitter:image" content="URL_TO_IMAGE">
+
+    
     <!-- Schema.org 마크업 -->
     <script type="application/ld+json">
     {
