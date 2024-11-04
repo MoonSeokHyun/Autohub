@@ -441,5 +441,7 @@ if(window.wcs) {
 wcs_do();
 }
 </script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+     crossorigin="anonymous"></script>
 </body>
 </html>
