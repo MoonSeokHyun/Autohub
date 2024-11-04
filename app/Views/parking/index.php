@@ -8,7 +8,20 @@
     <meta name="naver-site-verification" content="7a0d49f3fd680b5f4ab77f8edfd3deb13ee30f11" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Hub</title>
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+    <meta property="og:title" content="Car Hub - 서울 정비소와 주유소 정보">
+    <meta property="og:description" content="서울 및 전국의 정비소와 주유소 정보를 최신 상태로 제공합니다. 고객 리뷰를 통해 신뢰할 수 있는 정비소를 찾으세요.">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:image" content="URL_TO_IMAGE">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Car Hub - 정비소 정보">
+    <meta name="twitter:description" content="서울과 전국의 최신 정비소 정보를 확인하세요. 사용자 리뷰로 신뢰도 높은 정보를 제공합니다.">
+    <meta name="twitter:image" content="URL_TO_IMAGE">
+
+    <title>Car Hub - 주차장</title>
     <link rel="stylesheet" href="path/to/your/style.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
