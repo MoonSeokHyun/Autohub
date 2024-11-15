@@ -24,10 +24,16 @@ class SitemapController extends BaseController
         $xml .= "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
         foreach ($sections as $section) {
-            $xml .= "<sitemap>\n";
-            $xml .= "<loc>" . base_url("sitemap/{$section}") . "</loc>\n";
-            $xml .= "<lastmod>" . date('Y-m-d') . "</lastmod>\n";
-            $xml .= "</sitemap>\n";
+            $modelMapping = $this->getModelMapping($section);
+            $totalCount = $this->sitemapModel->countUrlsByType($modelMapping[0]);
+            $pages = ceil($totalCount / 2000);
+
+            for ($page = 1; $page <= $pages; $page++) {
+                $xml .= "<sitemap>\n";
+                $xml .= "<loc>" . base_url("sitemap/{$section}/{$page}") . "</loc>\n";
+                $xml .= "<lastmod>" . date('Y-m-d') . "</lastmod>\n";
+                $xml .= "</sitemap>\n";
+            }
         }
 
         $xml .= "</sitemapindex>";
@@ -40,17 +46,13 @@ class SitemapController extends BaseController
     // 특정 섹션의 사이트맵 반환
     public function section($section, $page = 1)
     {
-        $modelMapping = [
-            'parking' => [new ParkingLotModel(), 'parking'],
-            'gas_stations' => [new GasStationModel(), 'gas_stations'],
-            'automobile_repair_shop' => [new AutomobileRepairShopModel(), 'automobile_repair_shop']
-        ];
-
-        if (!isset($modelMapping[$section])) {
+        $modelMapping = $this->getModelMapping($section);
+        if (!$modelMapping) {
             return $this->failNotFound('Invalid section.');
         }
 
-        [$model, $type] = $modelMapping[$section];
+        [$model, $type] = $modelMapping;
+        $itemsPerPage = 2000;
         $offset = ($page - 1) * $itemsPerPage;
 
         $urls = $this->sitemapModel->getUrlsByType($model, $type, $itemsPerPage, $offset);
@@ -72,5 +74,17 @@ class SitemapController extends BaseController
         return $this->response
             ->setHeader('Content-Type', 'application/xml; charset=utf-8')
             ->setBody($xml);
+    }
+
+    // 섹션별 모델 매핑
+    private function getModelMapping($section)
+    {
+        $modelMapping = [
+            'parking' => [new ParkingLotModel(), 'parking'],
+            'gas_stations' => [new GasStationModel(), 'gas_stations'],
+            'automobile_repair_shop' => [new AutomobileRepairShopModel(), 'automobile_repair_shop']
+        ];
+
+        return $modelMapping[$section] ?? null;
     }
 }
