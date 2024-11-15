@@ -22,12 +22,6 @@ $routes->get('gas_stations/search', 'GasStationController::search');
 // 자동차 정비소 검색 라우트 추가
 $routes->get('automobile_repair_shops/search', 'AutomobileRepairShopController::search');
 
-$routes->group('sitemap', function($routes) {
-    $routes->get('generate', 'SitemapController::generateSitemap'); // 사이트맵 생성
-    $routes->get('index', 'SitemapController::sitemapIndex'); // 사이트맵 인덱스 보기
-    $routes->get('view/(:any)', 'SitemapController::viewSitemap/$1'); // 개별 사이트맵 파일 보기
-});
-
 
 // 배치 관련 
 
@@ -44,3 +38,7 @@ $routes->post('parking/saveComment', 'ParkingController::saveComment');
 $routes->post('/gas_station/saveComment', 'GasStationController::saveComment');
 // 정비소 댓글
 $routes->post('automobile_repair_shop/saveReview', 'AutomobileRepairShopController::saveReview');
+
+$routes->get('sitemap', 'SitemapController::sitemapIndex');
+$routes->get('sitemap/(:segment)/(:num)', 'SitemapController::section/$1/$2');
+$routes->get('sitemap/(:segment)', 'SitemapController::section/$1/1');
