@@ -15,10 +15,21 @@ class SitemapModel extends Model
         $urls = [];
 
         foreach ($data as $item) {
-            $urls[] = [
-                'loc' => base_url("{$type}/detail/{$item['id']}"),
-                'lastmod' => $item['data_reference_date'] ?? date('Y-m-d'),
-            ];
+            $baseUrl = base_url($type);
+
+            // parking 섹션은 "detail" 경로 포함
+            if ($type === 'parking') {
+                $urls[] = [
+                    'loc' => "{$baseUrl}/detail/{$item['id']}",
+                    'lastmod' => $item['data_reference_date'] ?? date('Y-m-d'),
+                ];
+            } else {
+                // gas_stations 및 automobile_repair_shop 섹션은 "id"만 추가
+                $urls[] = [
+                    'loc' => "{$baseUrl}/{$item['id']}",
+                    'lastmod' => $item['data_reference_date'] ?? date('Y-m-d'),
+                ];
+            }
         }
 
         return $urls;

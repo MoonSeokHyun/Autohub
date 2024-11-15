@@ -51,7 +51,6 @@ class SitemapController extends BaseController
         }
 
         [$model, $type] = $modelMapping[$section];
-        $itemsPerPage = 50000;
         $offset = ($page - 1) * $itemsPerPage;
 
         $urls = $this->sitemapModel->getUrlsByType($model, $type, $itemsPerPage, $offset);
