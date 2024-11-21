@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
-Sitemap: https://carhub.co.kr/sitemap/index
+Sitemap: https://carhub.co.kr/sitemap
 #DaumWebMasterTool:88cee42473c3b2176ab5fb26177dbef4c03fabe52b6926aa30cae6e30b602483:wzB2i9tmJ9MPr//bmHaXIw==
