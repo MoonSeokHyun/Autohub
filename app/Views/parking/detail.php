@@ -35,7 +35,7 @@
     <meta name="twitter:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
     <meta name="twitter:image" content="URL_TO_YOUR_IMAGE">
     <!-- 네이버 지도 API 추가 -->
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+<!--     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script> -->
     <style>
         body { font-family: Arial, sans-serif; background-color: #e6f0ff; margin: 0; padding: 0; }
         .container { width: 90%; max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border: 1px solid #007bff; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }

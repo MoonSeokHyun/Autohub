@@ -27,7 +27,7 @@
     <title>Car Hub - 주차장</title>
     <link rel="stylesheet" href="path/to/your/style.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+<!--     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script> -->
     <style>
         /* 기본 스타일 */
         body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f0f9ff; }
