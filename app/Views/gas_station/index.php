@@ -99,7 +99,7 @@
         .review-rating { color: #ffa500; font-weight: bold; }
     </style>
 
-    <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+<!--     <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script> -->
     <script>
         function goToDetail(id) {
             if (id) {
